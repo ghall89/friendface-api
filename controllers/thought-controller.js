@@ -13,7 +13,7 @@ const thoughtController = {
 		})
 		.then(dbUserData => {
 			if (!dbUserData) {
-				res.status(404).json({message: 'No user with this ID exists!'})
+				res.status(404).json({ message: 'No user with this ID exists!' })
 				return;
 			}
 			res.json(dbUserData);
@@ -31,7 +31,7 @@ const thoughtController = {
 		Thought.findOne({ _id: params.id})
 		.then(dbThoughtData => {
 			if (!dbThoughtData) {
-				res.status(404).json({message: 'No thought with this ID exists!'})
+				res.status(404).json({ message: 'No thought with this ID exists!' })
 				return;
 			}
 			res.json(dbThoughtData);
@@ -43,7 +43,7 @@ const thoughtController = {
 		Thought.findOneAndUpdate({ _id: params.id }, body, { new: true, runValidators: true })
 		.then(dbThoughtData => {
 			if (!dbThoughtData) {
-				res.status(404).json({message: 'No thought with this ID exists!'})
+				res.status(404).json({ message: 'No thought with this ID exists!' })
 				return;
 			}
 			res.json(dbUserData);
@@ -55,7 +55,7 @@ const thoughtController = {
 		Thought.findOneAndDelete({ _id: params.thoughtId })
 		.then(dbThoughtData => {
 			if (!dbThoughtData) {
-				res.status(404).json({message: 'No thought with this ID exists!'})
+				res.status(404).json({ message: 'No thought with this ID exists!' })
 				return;
 			}
 			return User.findOneAndUpdate(
@@ -72,6 +72,33 @@ const thoughtController = {
 			res.json(dbPizzaData);
 		})
 		.catch(err => res.status(400).json(err));
+	},
+	addReaction({ params, body }, res) {
+		Thought.findOneAndUpdate(
+			{ _id: params.thoughtId },
+			{ $push: { reactions: body} },
+			{ new: true, runValidators: true }
+		)
+		.then(dbPizzaData => {
+			if (!dbThoughtData) {
+				res.status(404).json({ message: 'No thought with this ID exists!' });
+				return;
+			}
+			res.json(dbThoughtData);
+		})
+		.catch(err => res.json(err));
+	},
+	deleteReaction({ params }, res) {
+		console.log(params);
+		Thought.findOneAndUpdate(
+			{ _id: params.thoughtId },
+			{ $pull: { reactions: {
+				reactionId: params.reactionId
+			} } },
+			{ new: true }
+		)
+		.then(dbThoughtData => res.json(dbThoughtData))
+		.catch(err => res.json(err));	
 	}
 }
 
