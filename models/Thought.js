@@ -2,10 +2,6 @@ const { Schema, model, Types } = require('mongoose');
 
 const ThoughtSchema = new Schema (
 	{
-		thoughtId: {
-			type: Schema.Types.ObjectId,
-			default: () => new Types.ObjectId()
-		},
 		thoughtText: {
 			type: String,
 			required: 'Thought must contain text!',
@@ -15,10 +11,6 @@ const ThoughtSchema = new Schema (
 		createdAt: {
 			type: Date,
 			default: Date.now()
-		},
-		createdBy: {
-			type: Schema.Types.ObjectId,
-			ref: 'User'
 		},
 		reactions:[
 			{

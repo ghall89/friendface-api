@@ -60,6 +60,18 @@ const userController = {
 			res.json(dbFriendData);
 		})
 		.catch(err => res.status(400).json(err));
+	},
+	// remove a friend
+	removeFriend({ params }, res) {
+		User.findOneAndUpdate(
+			{ _id: params.userId }, 
+			{ $pull: { friends : params.friendId } },
+			{ new: true }
+		)
+		.then(dbFriendData => {
+			res.json(dbFriendData);
+		})
+		.catch(err => res.status(400).json(err));
 	}
 
 }
