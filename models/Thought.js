@@ -12,6 +12,10 @@ const ThoughtSchema = new Schema (
 			type: Date,
 			default: Date.now()
 		},
+		username: {
+			type: String,
+			required: 'Thought must contain username!'
+		},
 		reactions:[
 			{
 				type: Schema.Types.ObjectId,
